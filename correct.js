@@ -28,15 +28,6 @@ function convertToStr(num) {
 }
 module.exports.convertToStr = convertToStr;
 
-
-function getPaymentWithUser(paymentId) {
-	let payment = models.payment.find({_id: paymentId});
-	payment.user = models.user.find({_id: payment.user});
-	return payment;
-}
-module.exports.getPaymentWithUser = getPaymentWithUser;
-
-
 async function getPaymentWithUser(paymentId) {
 	let payment = await models.payment.find({_id: paymentId});
 	if (payment[0]) {
