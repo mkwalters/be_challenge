@@ -3,8 +3,6 @@
  */
 
 
-
- // asyncronisity behaves a little strange in forEach loops. 
 async function pullFirstUser(userIds) {
 	for (let i = 0; i < userIds.length; i++) {
         let user = await models.user.findOne({_id: userIds[i]});
@@ -12,8 +10,9 @@ async function pullFirstUser(userIds) {
 		if (user) return user;
 	};
 }
+module.exports.pullFirstUser = pullFirstUser;
 
-// then takes two args? 
+
 async function pullPaymentsForUsers(users) {
 	let result = [];
 	for (let i = 0; i < users.length; i++) {
@@ -23,11 +22,13 @@ async function pullPaymentsForUsers(users) {
     console.log(result);
 	return result; // array of array with payments (the first array should contain payments for the first user)
 }
+module.exports.pullPaymentsForUsers = pullPaymentsForUsers;
 
-// only convert if num is a number.... "5" will pass right now. 
+
 function convertToStr(num) {
 	if (num && !isNaN(num)) return num.toString();
 }
+module.exports.convertToStr = convertToStr;
 
 
 function getPaymentWithUser(paymentId) {
@@ -35,17 +36,17 @@ function getPaymentWithUser(paymentId) {
 	payment.user = models.user.find({_id: payment.user});
 	return payment;
 }
+module.exports.getPaymentWithUser = getPaymentWithUser;
 
 
 async function getPaymentWithUser(paymentId) {
     let payment = await models.payment.find({_id: paymentId});
     let user = await models.user.find({_id: payment[0].user});
-    // console.log(user);
-    // console.log(payment);
     payment[0].user = user[0]
     console.log(payment);
     return payment;
 }
+module.exports.getPaymentWithUser = getPaymentWithUser;
 
 async function getGroupedUserPmts(userIds) {
 	let result = {};
@@ -55,6 +56,6 @@ async function getGroupedUserPmts(userIds) {
 		usersPayments = payments.filter(payment => userId == payment.user);
 		result[userId] = usersPayments;
     });
-    console.log(result);
 	return result;
 }
+module.exports.getGroupedUserPmts = getGroupedUserPmts;

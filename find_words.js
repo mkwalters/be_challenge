@@ -89,5 +89,5 @@ function mapDirectionToVector(direction) {
 }
 
 // console.log( mapDirectionToVector("east") );
-findWords(myGrid, dictionary);
+// findWords(myGrid, dictionary);
 module.exports.findWords = findWords;
