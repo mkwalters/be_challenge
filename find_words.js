@@ -52,8 +52,8 @@ async function findWords(wordGrid, dictionary) {
 				for (let i = 0; i < directions.length; i++) {
 					if (peek(directions[i], wordGrid, currentMatch, row, column)) {
 						 foundWords.add(currentMatch);
+						 break;
 					}
-					break;
 				}
 			}
 		}
