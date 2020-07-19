@@ -77,13 +77,13 @@ function peek(direction, wordGrid, currentMatch, row, column) {
 function mapDirectionToVector(direction) {
 	let map = {
 		"north" : { "rowChange": -1, "columnChange": 0 },
-		"northeast" : { "rowChange": 1, "columnChange": 1 },
+		"northeast" : { "rowChange": -1, "columnChange": 1 },
 		"east" : { "rowChange": 0, "columnChange": 1 },
-		"southeast" : { "rowChange": -1, "columnChange": 1 },
+		"southeast" : { "rowChange": 1, "columnChange": 1 },
 		"south" : { "rowChange": 1, "columnChange": 0 },
-		"southwest" : { "rowChange": -1, "columnChange": -1 },
+		"southwest" : { "rowChange": 1, "columnChange": -1 },
 		"west" : { "rowChange": 0, "columnChange": -1 },
-		"northwest" : { "rowChange": 1, "columnChange": -1 },
+		"northwest" : { "rowChange": -1, "columnChange": -1 },
 	};
 	return map[direction]
 }
