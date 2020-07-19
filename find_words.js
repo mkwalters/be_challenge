@@ -23,14 +23,13 @@
  * @returns {Set} All words from the dictionary that were found
  */
 
-let myGrid = [ ["P", "R", "S"], ["C", "A", "T"], ["E", "N", "T"], ["D", "O", "G"] ]
-let dictionary = new Set()
+let myGrid = [ ["P", "R", "S"], ["C", "A", "T"], ["D", "N", "T"], ["O", "D", "G"], ["G", "A", "B"] ];
+let dictionary = new Set();
 
-dictionary.add("CAT")
-dictionary.add("DOG")
+dictionary.add("CAT");
+dictionary.add("DOG");
 
 async function findWords(wordGrid, dictionary) {
-	// TODO: Implement me
 
 	let foundWords = new Set();
 
@@ -42,29 +41,53 @@ async function findWords(wordGrid, dictionary) {
 
 			dictionary.forEach( word => {
 				if (word[0] == currentLetter) {
-					 currentMatches.push(word)
+					 currentMatches.push(word);
 				}
 			})
 			while (currentMatches.length > 0) {
 
-				currentMatch = currentMatches.pop()
+				let currentMatch = currentMatches.pop();
+				let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
 
-				//PEEK EAST
-				for (let i = 0; i < currentMatch.length; i++) {
-					// need to check indices
-					console.log(currentMatch[i] + " and " + wordGrid[row][column + i]);
-					if (currentMatch[i] != wordGrid[row][column + i]) break;
-					if (i == currentMatch.length - 1) {
-						foundWords.add(currentMatch)
+				for (let i = 0; i < directions.length; i++) {
+					if (peek(directions[i], wordGrid, currentMatch, row, column)) {
+						 foundWords.add(currentMatch);
 					}
+					break;
 				}
-
 			}
 		}
 	}
-	console.log(foundWords);
+	return foundWords;
 
 }
 
+function peek(direction, wordGrid, currentMatch, row, column) {
+
+	let directionVector = mapDirectionToVector(direction);
+
+	for (let i = 0; i < currentMatch.length; i++) {
+		if (currentMatch[i] != wordGrid[row + (i * directionVector.rowChange )][column + (i * directionVector.columnChange)]) break;
+		if (i == currentMatch.length - 1) {
+			return currentMatch;
+		}
+	}
+}
+
+function mapDirectionToVector(direction) {
+	let map = {
+		"north" : { "rowChange": 1, "columnChange": 0 },
+		"northeast" : { "rowChange": 1, "columnChange": 1 },
+		"east" : { "rowChange": 0, "columnChange": 1 },
+		"southeast" : { "rowChange": -1, "columnChange": 1 },
+		"south" : { "rowChange": 1, "columnChange": 0 },
+		"southwest" : { "rowChange": -1, "columnChange": -1 },
+		"west" : { "rowChange": 0, "columnChange": -1 },
+		"northwest" : { "rowChange": 1, "columnChange": -1 },
+	};
+	return map[direction]
+}
+
+// console.log( mapDirectionToVector("east") );
 findWords(myGrid, dictionary);
 module.exports.findWords = findWords;
