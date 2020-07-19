@@ -29,63 +29,65 @@
 // dictionary.add("CAT");
 // dictionary.add("DOG");
 
+//spacing fix
+
 async function findWords(wordGrid, dictionary) {
 
-	let foundWords = new Set();
+  let foundWords = new Set();
 
-	for (let row = 0; row < wordGrid.length; row++) {
-		for (let column = 0; column < wordGrid[row].length; column++) {
+  for (let row = 0; row < wordGrid.length; row++) {
+    for (let column = 0; column < wordGrid[row].length; column++) {
 
-			let currentLetter = wordGrid[row][column];
-			let currentMatches = [];
+      let currentLetter = wordGrid[row][column];
+      let currentMatches = [];
 
-			dictionary.forEach( word => {
-				if (word[0] == currentLetter) {
-					 currentMatches.push(word);
-				}
-			})
-			while (currentMatches.length > 0) {
+      dictionary.forEach( word => {
+        if (word[0] == currentLetter) {
+           currentMatches.push(word);
+        }
+      })
+      while (currentMatches.length > 0) {
 
-				let currentMatch = currentMatches.pop();
-				let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+        let currentMatch = currentMatches.pop();
+        let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
 
-				for (let i = 0; i < directions.length; i++) {
-					if (peek(directions[i], wordGrid, currentMatch, row, column)) {
-						 foundWords.add(currentMatch);
-						 break;
-					}
-				}
-			}
-		}
-	}
-	return foundWords;
+        for (let i = 0; i < directions.length; i++) {
+          if (peek(directions[i], wordGrid, currentMatch, row, column)) {
+             foundWords.add(currentMatch);
+             break;
+          }
+        }
+      }
+    }
+  }
+  return foundWords;
 
 }
 
 function peek(direction, wordGrid, currentMatch, row, column) {
 
-	let directionVector = mapDirectionToVector(direction);
+  let directionVector = mapDirectionToVector(direction);
 
-	for (let i = 0; i < currentMatch.length; i++) {
-		if (currentMatch[i] != wordGrid[row + (i * directionVector.rowChange )][column + (i * directionVector.columnChange)]) break;
-		if (i == currentMatch.length - 1) {
-			return currentMatch;
-		}
-	}
+  for (let i = 0; i < currentMatch.length; i++) {
+    if (currentMatch[i] != wordGrid[row + (i * directionVector.rowChange )][column + (i * directionVector.columnChange)]) break;
+    if (i == currentMatch.length - 1) {
+      return currentMatch;
+    }
+  }
 }
 
 function mapDirectionToVector(direction) {
-	let map = {
-		"north" : { "rowChange": -1, "columnChange": 0 },
-		"northeast" : { "rowChange": -1, "columnChange": 1 },
-		"east" : { "rowChange": 0, "columnChange": 1 },
-		"southeast" : { "rowChange": 1, "columnChange": 1 },
-		"south" : { "rowChange": 1, "columnChange": 0 },
-		"southwest" : { "rowChange": 1, "columnChange": -1 },
-		"west" : { "rowChange": 0, "columnChange": -1 },
-		"northwest" : { "rowChange": -1, "columnChange": -1 },
-	};
-	return map[direction]
+  let map = {
+    "north" : { "rowChange": -1, "columnChange": 0 },
+    "northeast" : { "rowChange": -1, "columnChange": 1 },
+    "east" : { "rowChange": 0, "columnChange": 1 },
+    "southeast" : { "rowChange": 1, "columnChange": 1 },
+    "south" : { "rowChange": 1, "columnChange": 0 },
+    "southwest" : { "rowChange": 1, "columnChange": -1 },
+    "west" : { "rowChange": 0, "columnChange": -1 },
+    "northwest" : { "rowChange": -1, "columnChange": -1 },
+  };
+  return map[direction]
 }
 
 module.exports.findWords = findWords;
