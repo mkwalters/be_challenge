@@ -6,7 +6,6 @@
 async function pullFirstUser(userIds) {
 	for (let i = 0; i < userIds.length; i++) {
         let user = await models.user.findOne({_id: userIds[i]});
-        if (user) console.log(user);
 		if (user) return user;
 	};
 }
@@ -19,7 +18,6 @@ async function pullPaymentsForUsers(users) {
 		let payments = await models.payment.find({user: users[i]._id})
 		result.push(payments);
     }
-    console.log(result);
 	return result; // array of array with payments (the first array should contain payments for the first user)
 }
 module.exports.pullPaymentsForUsers = pullPaymentsForUsers;
@@ -40,10 +38,13 @@ module.exports.getPaymentWithUser = getPaymentWithUser;
 
 
 async function getPaymentWithUser(paymentId) {
-    let payment = await models.payment.find({_id: paymentId});
-    let user = await models.user.find({_id: payment[0].user});
-    payment[0].user = user[0]
-    console.log(payment);
+	let payment = await models.payment.find({_id: paymentId});
+	if (payment[0]) {
+		let user = await models.user.find({_id: payment[0].user});
+		if (user[0]) {
+			payment[0].user = user[0]
+		}
+	}
     return payment;
 }
 module.exports.getPaymentWithUser = getPaymentWithUser;
@@ -51,7 +52,6 @@ module.exports.getPaymentWithUser = getPaymentWithUser;
 async function getGroupedUserPmts(userIds) {
 	let result = {};
     let payments = await models.payment.find({active: true});
-    console.log(payments);
 	userIds.forEach(userId => {
 		usersPayments = payments.filter(payment => userId == payment.user);
 		result[userId] = usersPayments;

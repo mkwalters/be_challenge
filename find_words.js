@@ -23,11 +23,11 @@
  * @returns {Set} All words from the dictionary that were found
  */
 
-let myGrid = [ ["P", "R", "S"], ["C", "A", "T"], ["D", "N", "T"], ["O", "D", "G"], ["G", "A", "B"] ];
-let dictionary = new Set();
+// let myGrid = [ ["P", "R", "S"], ["C", "A", "T"], ["D", "N", "T"], ["O", "D", "G"], ["G", "A", "B"] ];
+// let dictionary = new Set();
 
-dictionary.add("CAT");
-dictionary.add("DOG");
+// dictionary.add("CAT");
+// dictionary.add("DOG");
 
 async function findWords(wordGrid, dictionary) {
 
@@ -76,7 +76,7 @@ function peek(direction, wordGrid, currentMatch, row, column) {
 
 function mapDirectionToVector(direction) {
 	let map = {
-		"north" : { "rowChange": 1, "columnChange": 0 },
+		"north" : { "rowChange": -1, "columnChange": 0 },
 		"northeast" : { "rowChange": 1, "columnChange": 1 },
 		"east" : { "rowChange": 0, "columnChange": 1 },
 		"southeast" : { "rowChange": -1, "columnChange": 1 },
@@ -88,6 +88,4 @@ function mapDirectionToVector(direction) {
 	return map[direction]
 }
 
-// console.log( mapDirectionToVector("east") );
-// findWords(myGrid, dictionary);
 module.exports.findWords = findWords;
