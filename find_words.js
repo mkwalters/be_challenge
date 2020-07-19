@@ -29,8 +29,6 @@
 // dictionary.add("CAT");
 // dictionary.add("DOG");
 
-//spacing fix
-
 async function findWords(wordGrid, dictionary) {
 
   let foundWords = new Set();
